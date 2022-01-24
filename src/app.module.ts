@@ -8,7 +8,13 @@ import { MeasurementUnitModule } from './measurement-unit/measurement-unit.modul
 import { SensorDataModule } from './sensor-data/sensor-data.module';
 
 @Module({
-  imports: [UserModule, SensorDeviceModule, DataStreamModule, MeasurementUnitModule, SensorDataModule],
+  imports: [
+    UserModule,
+    SensorDeviceModule,
+    DataStreamModule,
+    MeasurementUnitModule,
+    SensorDataModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
