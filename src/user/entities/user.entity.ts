@@ -16,6 +16,9 @@ export class User {
     @IsEmail()
     email: string;
 
+    @Column()
+    password: string;
+
     @OneToMany(() => SensorDevice, sensorDevice => sensorDevice.user)
     sensorDevices : SensorDevice[];
 
