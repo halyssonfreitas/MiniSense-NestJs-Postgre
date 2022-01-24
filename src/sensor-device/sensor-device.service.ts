@@ -1,5 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { uuid } from 'uuidv4';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
@@ -14,7 +15,9 @@ export class SensorDeviceService {
   ) { }
 
   create(createSensorDeviceDto: CreateSensorDeviceDto) {
-    return 'This action adds a new sensorDevice';
+    createSensorDeviceDto.id = uuid()
+    createSensorDeviceDto.key = uuid()
+    return this.sensorDeviceRepository.save(createSensorDeviceDto);
   }
 
   findAll() {

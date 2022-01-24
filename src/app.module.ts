@@ -7,6 +7,7 @@ import { DataStreamModule } from './data-stream/data-stream.module';
 import { MeasurementUnitModule } from './measurement-unit/measurement-unit.module';
 import { SensorDataModule } from './sensor-data/sensor-data.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     SensorDeviceModule,
     DataStreamModule,
     MeasurementUnitModule,
-    SensorDataModule
+    SensorDataModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
