@@ -5,9 +5,10 @@ import { UserModule } from './user/user.module';
 import { SensorDeviceModule } from './sensor-device/sensor-device.module';
 import { DataStreamModule } from './data-stream/data-stream.module';
 import { MeasurementUnitModule } from './measurement-unit/measurement-unit.module';
+import { SensorDataModule } from './sensor-data/sensor-data.module';
 
 @Module({
-  imports: [UserModule, SensorDeviceModule, DataStreamModule, MeasurementUnitModule],
+  imports: [UserModule, SensorDeviceModule, DataStreamModule, MeasurementUnitModule, SensorDataModule],
   controllers: [AppController],
   providers: [AppService],
 })
