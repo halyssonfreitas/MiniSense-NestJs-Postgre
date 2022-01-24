@@ -1,9 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserService } from 'src/user/user.service';
+import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
+import { SensorDevice } from './entities/sensor-device.entity';
 
 @Injectable()
 export class SensorDeviceService {
+
+  constructor(
+    @InjectRepository(SensorDevice) private sensorDeviceRepository: Repository<SensorDevice>
+  ) { }
+
   create(createSensorDeviceDto: CreateSensorDeviceDto) {
     return 'This action adds a new sensorDevice';
   }

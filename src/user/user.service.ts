@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SensorDeviceService } from 'src/sensor-device/sensor-device.service';
 import { Repository } from 'typeorm';
 import { uuid } from 'uuidv4';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,8 +11,7 @@ import { User } from './entities/user.entity';
 export class UserService {
 
   constructor(
-    @InjectRepository(User)
-    private userRepository:Repository<User>
+    @InjectRepository(User) private userRepository : Repository<User>
   ) { }
 
   create(createUserDto: CreateUserDto) {

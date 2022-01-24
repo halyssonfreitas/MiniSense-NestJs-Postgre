@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import {IsEmail, IsEmpty} from "class-validator";
+import { SensorDevice } from "src/sensor-device/entities/sensor-device.entity";
 
 @Entity()
 export class User {
@@ -14,4 +15,8 @@ export class User {
     @Column()
     @IsEmail()
     email: string;
+
+    @OneToMany(() => SensorDevice, sensorDevice => sensorDevice.user)
+    sensorDevices : SensorDevice[];
+
 }

@@ -1,6 +1,8 @@
 import { IsEmpty, IsString } from "class-validator";
-import { Column, PrimaryColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
+@Entity()
 export class SensorDevice {
 
     @PrimaryColumn()
@@ -8,12 +10,18 @@ export class SensorDevice {
 
     @Column()
     @IsString()
-    @IsEmpty()
     key?: string;
 
+    @Column()
+    @IsString()
     label: string;
 
+    @Column()
+    @IsString()
     description: string;
 
-    user: string;
+    @ManyToOne(()=>User, user => user.sensorDevices)
+    user: User;
+
+
 }
