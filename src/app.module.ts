@@ -6,9 +6,11 @@ import { SensorDeviceModule } from './sensor-device/sensor-device.module';
 import { DataStreamModule } from './data-stream/data-stream.module';
 import { MeasurementUnitModule } from './measurement-unit/measurement-unit.module';
 import { SensorDataModule } from './sensor-data/sensor-data.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    TypeOrmModule.forRoot(),
     UserModule,
     SensorDeviceModule,
     DataStreamModule,
