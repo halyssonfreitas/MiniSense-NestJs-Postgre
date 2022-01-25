@@ -7,7 +7,7 @@ import { UserModule } from 'src/user/user.module';
 import { UserService } from 'src/user/user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SensorDevice])],
+  imports: [TypeOrmModule.forFeature([SensorDevice]), UserModule],
   controllers: [SensorDeviceController],
   providers: [SensorDeviceService],
   exports: [SensorDeviceService]

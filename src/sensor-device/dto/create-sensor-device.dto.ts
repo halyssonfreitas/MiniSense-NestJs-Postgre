@@ -1,4 +1,5 @@
-import { IsEmpty, IsString } from "class-validator";
+import { IsEmpty, IsOptional, IsString } from "class-validator";
+import { User } from "src/user/entities/user.entity";
 
 export class CreateSensorDeviceDto {
     @IsEmpty()
@@ -12,5 +13,8 @@ export class CreateSensorDeviceDto {
 
     @IsString()
     description: string;
+
+    @IsOptional()
+    user?: User;
 
 }
