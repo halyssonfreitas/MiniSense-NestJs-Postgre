@@ -28,6 +28,11 @@ export class DataStreamController {
     return this.dataStreamService.findOne(id);
   }
 
+  @Get('by-key/:key')
+  findOneByKey(@Param('key') key: string) {
+    return this.dataStreamService.findOneByKeyRoute(key);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDataStreamDto: UpdateDataStreamDto) {
     return this.dataStreamService.update(+id, updateDataStreamDto);

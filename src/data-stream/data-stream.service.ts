@@ -5,7 +5,7 @@ import { SensorDeviceService } from 'src/sensor-device/sensor-device.service';
 import { Repository } from 'typeorm';
 import { uuid } from 'uuidv4';
 import { CreateDataStreamDto } from './dto/create-data-stream.dto';
-import { returnDataStreamDto_forCreate } from './dto/return-data-stream.dto';
+import { returnDataStreamDto_forCreate, returnDataStreamDto_forFindOneByKeyRoute } from './dto/return-data-stream.dto';
 import { UpdateDataStreamDto } from './dto/update-data-stream.dto';
 import { DataStream } from './entities/data-stream.entity';
 
@@ -59,6 +59,16 @@ export class DataStreamService {
       },
       relations : ['unit']
     });
+  }
+
+  async findOneByKeyRoute(key: string) {
+    const dataStream = await this.dataStreamRepository.findOne({
+      where : {
+        key
+      },
+      relations : ['sensorData', 'sensorDevice', 'unit']
+    });
+    return returnDataStreamDto_forFindOneByKeyRoute(dataStream)
   }
 
   update(id: number, updateDataStreamDto: UpdateDataStreamDto) {
