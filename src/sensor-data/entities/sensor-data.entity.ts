@@ -1,7 +1,7 @@
-import { IsDate, IsEmpty, IsNumber } from "class-validator";
+import { IsDate, IsDecimal, IsEmpty, IsNumber, IsString } from "class-validator";
 import { DataStream } from "src/data-stream/entities/data-stream.entity";
 import { MeasurementUnit } from "src/measurement-unit/entities/measurement-unit.entity";
-import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Double, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class SensorData {
@@ -10,15 +10,14 @@ export class SensorData {
     id?: string
 
     @Column()
-    @IsDate()
-    timestamp: Date
+    @IsString()
+    timestamp: string
 
-    @Column()
-    @IsNumber()
+    @Column({type: "double precision"})
     value: number
 
-    @ManyToOne(() => MeasurementUnit, unitId => unitId.sensorData)
-    unitId : MeasurementUnit
+    @ManyToOne(() => MeasurementUnit, unit => unit.sensorData)
+    unit : MeasurementUnit
 
     @ManyToOne(() => DataStream, dataStream => dataStream.sensoData)
     dataStream : DataStream

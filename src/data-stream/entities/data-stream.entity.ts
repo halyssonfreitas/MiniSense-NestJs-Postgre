@@ -25,7 +25,7 @@ export class DataStream {
     @ManyToOne(() => SensorDevice, sensorDevice => sensorDevice.dataStream)
     sensorDevice: SensorDevice
 
-    @ManyToOne(() => MeasurementUnit, unitId => unitId.dataStream)
+    @ManyToOne(() => MeasurementUnit, unit => unit.dataStream)
     unit: MeasurementUnit
 
     @OneToMany(() => SensorData, sensoData => sensoData.dataStream)

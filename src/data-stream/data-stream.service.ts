@@ -24,7 +24,7 @@ export class DataStreamService {
       throw new HttpException("Gived Key for SensorDevice doens't exists", HttpStatus.BAD_REQUEST)
     }
 
-    const measurementUnit = await this.measurementUnitService.findOne(createDataStreamDto.unitId)
+    const measurementUnit = await this.measurementUnitService.findOne(createDataStreamDto.unit)
     if (!measurementUnit) {
       throw new HttpException("Gived Id for Measurement Unit doens't exists", HttpStatus.BAD_REQUEST)
     }
@@ -32,19 +32,26 @@ export class DataStreamService {
     createDataStreamDto.id = uuid()
     createDataStreamDto.key = uuid()
     createDataStreamDto.sensorDevice = sensorDevice.id
-    createDataStreamDto.unitId = measurementUnit.id
-
-    console.log(createDataStreamDto)
+    createDataStreamDto.unit = measurementUnit.id
 
     return this.dataStreamRepository.save(createDataStreamDto);
   }
 
   findAll() {
-    return `This action returns all dataStream`;
+    return this.dataStreamRepository.find();
   }
 
   findOne(id: number) {
     return `This action returns a #${id} dataStream`;
+  }
+
+  findOneByKey(key: string) {
+    return this.dataStreamRepository.findOne({
+      where : {
+        key
+      },
+      relations : ['unit']
+    });
   }
 
   update(id: number, updateDataStreamDto: UpdateDataStreamDto) {

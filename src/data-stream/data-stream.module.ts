@@ -9,6 +9,7 @@ import { MeasurementUnitModule } from 'src/measurement-unit/measurement-unit.mod
 @Module({
   imports: [TypeOrmModule.forFeature([DataStream]), SensorDeviceModule, MeasurementUnitModule],
   controllers: [DataStreamController],
-  providers: [DataStreamService]
+  providers: [DataStreamService],
+  exports: [DataStreamService]
 })
 export class DataStreamModule {}

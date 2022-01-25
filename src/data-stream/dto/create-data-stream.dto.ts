@@ -21,5 +21,5 @@ export class CreateDataStreamDto {
     sensorDevice?: any
 
     @IsString()
-    unitId: any
+    unit: any
 }

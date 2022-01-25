@@ -1,15 +1,18 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SensorDataService } from './sensor-data.service';
-import { CreateSensorDatumDto } from './dto/create-sensor-datum.dto';
-import { UpdateSensorDatumDto } from './dto/update-sensor-datum.dto';
+import { CreateSensorDataDto } from './dto/create-sensor-data.dto';
+import { UpdateSensorDataDto } from './dto/update-sensor-data.dto';
 
 @Controller('sensor-data')
 export class SensorDataController {
   constructor(private readonly sensorDataService: SensorDataService) {}
 
-  @Post()
-  create(@Body() createSensorDatumDto: CreateSensorDatumDto) {
-    return this.sensorDataService.create(createSensorDatumDto);
+  @Post(':key')
+  create(
+    @Body() createSensorDatumDto: CreateSensorDataDto,
+    @Param('key') keyOfDataStream : string
+    ) {
+    return this.sensorDataService.create(createSensorDatumDto, keyOfDataStream);
   }
 
   @Get()
@@ -23,7 +26,7 @@ export class SensorDataController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSensorDatumDto: UpdateSensorDatumDto) {
+  update(@Param('id') id: string, @Body() updateSensorDatumDto: UpdateSensorDataDto) {
     return this.sensorDataService.update(+id, updateSensorDatumDto);
   }
 

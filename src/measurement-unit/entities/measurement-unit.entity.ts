@@ -19,7 +19,7 @@ export class MeasurementUnit {
     @OneToMany(() => DataStream, dataStream => dataStream.unit)
     dataStream: DataStream[]
 
-    @OneToMany(() => SensorData, sensorData => sensorData.unitId)
+    @OneToMany(() => SensorData, sensorData => sensorData.unit)
     sensorData: SensorData[]
 
 }
