@@ -1,15 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { DataStreamService } from './data-stream.service';
 import { CreateDataStreamDto } from './dto/create-data-stream.dto';
 import { UpdateDataStreamDto } from './dto/update-data-stream.dto';
 
 @Controller('data-stream')
+@UseGuards(JwtAuthGuard)
 export class DataStreamController {
   constructor(private readonly dataStreamService: DataStreamService) {}
 
   @Post()
-  create(@Body() createDataStreamDto: CreateDataStreamDto) {
-    return this.dataStreamService.create(createDataStreamDto);
+  create(
+    @Body() createDataStreamDto: CreateDataStreamDto,
+    @Param('key') keyOfSensorDevice: string
+    ) {
+    return this.dataStreamService.create(createDataStreamDto, keyOfSensorDevice);
   }
 
   @Get()

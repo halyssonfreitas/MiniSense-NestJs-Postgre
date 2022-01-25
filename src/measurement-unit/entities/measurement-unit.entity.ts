@@ -1,5 +1,8 @@
 import { IsEmpty } from "class-validator";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { DataStream } from "src/data-stream/entities/data-stream.entity";
+import { SensorData } from "src/sensor-data/entities/sensor-data.entity";
+import { SensorDevice } from "src/sensor-device/entities/sensor-device.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class MeasurementUnit {
@@ -12,5 +15,11 @@ export class MeasurementUnit {
 
     @Column()
     description: string;
+
+    @OneToMany(() => DataStream, dataStream => dataStream.unitId)
+    dataStream: DataStream[]
+
+    @OneToMany(() => SensorData, sensorData => sensorData.unitId)
+    sensorData: SensorData[]
 
 }

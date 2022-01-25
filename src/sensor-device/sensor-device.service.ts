@@ -53,6 +53,14 @@ export class SensorDeviceService {
     });
   }
 
+  findOneByKey(key: string) {
+    return this.sensorDeviceRepository.findOne({
+      where: {
+        key: key
+      },
+    });
+  }
+
   async findAllByUser(user: any) {
     console.log(user.userId)
     return await this.sensorDeviceRepository.find({
