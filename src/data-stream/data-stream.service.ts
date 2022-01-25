@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeasurementUnitService } from 'src/measurement-unit/measurement-unit.service';
 import { SensorDeviceService } from 'src/sensor-device/sensor-device.service';
@@ -14,6 +14,7 @@ export class DataStreamService {
 
   constructor(
     @InjectRepository(DataStream) private dataStreamRepository : Repository<DataStream>,
+    @Inject(forwardRef(() => SensorDeviceService))
     private readonly sensorDeviceService : SensorDeviceService,
     private readonly measurementUnitService : MeasurementUnitService
   ) { }

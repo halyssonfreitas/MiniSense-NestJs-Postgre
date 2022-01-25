@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { uuid } from 'uuidv4';
 import { UserService } from 'src/user/user.service';
@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { SensorDevice } from './entities/sensor-device.entity';
-import { returnSensorDeviceDto_forCreate } from './dto/return-sensor-device.dto';
+import { returnSensorDeviceDto_forCreate, returnSensorDeviceDto_forFindAllByUser } from './dto/return-sensor-device.dto';
 import { DataStreamService } from 'src/data-stream/data-stream.service';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class SensorDeviceService {
   constructor(
     @InjectRepository(SensorDevice) private sensorDeviceRepository: Repository<SensorDevice>,
     private readonly userService: UserService,
+    @Inject(forwardRef(() => DataStreamService))
     private readonly dataStreamService: DataStreamService
   ) { }
 
@@ -66,7 +67,7 @@ export class SensorDeviceService {
   }
 
   async findAllByUser(user: any) {
-    var sdListByUser = await this.sensorDeviceRepository.find({
+    var sensorDeviceListByUser = await this.sensorDeviceRepository.find({
       select: ["id", "key", "label", "description", "user"],
       where: [
         { user: user.userId },
@@ -74,11 +75,15 @@ export class SensorDeviceService {
       relations: ['dataStream']
     })
 
-    for (let i = 0; i < sdListByUser.length; i++) {
-      for (let j = 0; j < sdListByUser[i].dataStream.length; j++) {
-        sdListByUser[i].dataStream[j] = await this.dataStreamService.findOne(sdListByUser[i].dataStream[j].id)
+    // Getting all information of dataStrem
+    // This is like a relation of relation in find
+    for (let i = 0; i < sensorDeviceListByUser.length; i++) {
+      for (let j = 0; j < sensorDeviceListByUser[i].dataStream.length; j++) {
+        sensorDeviceListByUser[i].dataStream[j] = await this.dataStreamService.findOne(sensorDeviceListByUser[i].dataStream[j].id)
       }
     }
+
+    return returnSensorDeviceDto_forFindAllByUser(sensorDeviceListByUser);
   }
 
   update(id: string, updateSensorDeviceDto: UpdateSensorDeviceDto) {
