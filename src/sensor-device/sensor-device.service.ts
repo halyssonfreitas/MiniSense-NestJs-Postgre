@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { SensorDevice } from './entities/sensor-device.entity';
-import { returnSensorDeviceDto_forCreate, returnSensorDeviceDto_forFindAllByUser } from './dto/return-sensor-device.dto';
+import { returnSensorDeviceDto_forCreate, returnSensorDeviceDto_forFindAllByUser, returnSensorDeviceDto_forFindOneByKeyRoute } from './dto/return-sensor-device.dto';
 import { DataStreamService } from 'src/data-stream/data-stream.service';
 
 @Injectable()
@@ -64,6 +64,25 @@ export class SensorDeviceService {
         key: key
       },
     });
+  }
+
+  async findOneByKeyRoute(key: string) {
+    const sensorDevice = await this.sensorDeviceRepository.findOne({
+      where: {
+        key: key
+      },
+      relations: ['dataStream']
+    });
+
+    // Getting all information of dataStrem
+    // This is like a relation of relation in find
+    for (let i = 0; i < sensorDevice.dataStream.length; i++) {
+      sensorDevice.dataStream[i] = await this.dataStreamService.findOne(sensorDevice.dataStream[i].id)
+    }
+    console.log(sensorDevice.dataStream[0].sensorData)
+
+
+    return returnSensorDeviceDto_forFindOneByKeyRoute(sensorDevice)
   }
 
   async findAllByUser(user: any) {

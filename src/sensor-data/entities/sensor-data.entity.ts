@@ -19,6 +19,6 @@ export class SensorData {
     @ManyToOne(() => MeasurementUnit, unit => unit.sensorData)
     unit : MeasurementUnit
 
-    @ManyToOne(() => DataStream, dataStream => dataStream.sensoData)
+    @ManyToOne(() => DataStream, dataStream => dataStream.sensorData)
     dataStream : DataStream
 }

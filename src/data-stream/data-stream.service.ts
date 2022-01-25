@@ -48,7 +48,7 @@ export class DataStreamService {
   findOne(id: string) {
     return this.dataStreamRepository.findOne({
       where : {id},
-      relations : ['unit', 'sensoData']
+      relations : ['unit', 'sensorData']
     });
   }
 

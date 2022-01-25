@@ -11,7 +11,7 @@ import { UserService } from 'src/user/user.service';
 export class SensorDeviceController {
   constructor(
     private readonly sensorDeviceService: SensorDeviceService,
-  ) {}
+  ) { }
 
   @Post()
   create(
@@ -31,11 +31,16 @@ export class SensorDeviceController {
     return this.sensorDeviceService.findAllByUser(req.user);
   }
 
+  @Get('by-key/:key')
+  findOneByKey(@Param('key') key: string) {
+    return this.sensorDeviceService.findOneByKeyRoute(key);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sensorDeviceService.findOne(id);
   }
-  
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSensorDeviceDto: UpdateSensorDeviceDto) {

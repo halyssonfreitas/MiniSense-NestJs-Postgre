@@ -29,5 +29,5 @@ export class DataStream {
     unit: MeasurementUnit
 
     @OneToMany(() => SensorData, sensoData => sensoData.dataStream)
-    sensoData: SensorData[]
+    sensorData: SensorData[]
 }
