@@ -25,7 +25,7 @@ export class DataStreamController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.dataStreamService.findOne(+id);
+    return this.dataStreamService.findOne(id);
   }
 
   @Patch(':id')

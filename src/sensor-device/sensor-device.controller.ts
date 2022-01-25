@@ -39,11 +39,11 @@ export class SensorDeviceController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSensorDeviceDto: UpdateSensorDeviceDto) {
-    return this.sensorDeviceService.update(+id, updateSensorDeviceDto);
+    return this.sensorDeviceService.update(id, updateSensorDeviceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.sensorDeviceService.remove(+id);
+    return this.sensorDeviceService.remove(id);
   }
 }

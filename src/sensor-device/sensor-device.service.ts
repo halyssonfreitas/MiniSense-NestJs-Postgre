@@ -7,13 +7,15 @@ import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { SensorDevice } from './entities/sensor-device.entity';
 import { returnSensorDeviceDto_forCreate } from './dto/return-sensor-device.dto';
+import { DataStreamService } from 'src/data-stream/data-stream.service';
 
 @Injectable()
 export class SensorDeviceService {
 
   constructor(
     @InjectRepository(SensorDevice) private sensorDeviceRepository: Repository<SensorDevice>,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly dataStreamService: DataStreamService
   ) { }
 
   async create(
@@ -34,7 +36,7 @@ export class SensorDeviceService {
 
     this.sensorDeviceRepository.save(createSensorDeviceDto)
       .catch(() => { throw new HttpException("This was not saved, please, try again!", HttpStatus.EXPECTATION_FAILED) })
-    
+
     return returnSensorDeviceDto_forCreate(createSensorDeviceDto)
   }
 
@@ -64,21 +66,26 @@ export class SensorDeviceService {
   }
 
   async findAllByUser(user: any) {
-    console.log(user.userId)
-    return await this.sensorDeviceRepository.find({
+    var sdListByUser = await this.sensorDeviceRepository.find({
       select: ["id", "key", "label", "description", "user"],
       where: [
         { user: user.userId },
       ],
-      //relations: ['user']
+      relations: ['dataStream']
     })
+
+    for (let i = 0; i < sdListByUser.length; i++) {
+      for (let j = 0; j < sdListByUser[i].dataStream.length; j++) {
+        sdListByUser[i].dataStream[j] = await this.dataStreamService.findOne(sdListByUser[i].dataStream[j].id)
+      }
+    }
   }
 
-  update(id: number, updateSensorDeviceDto: UpdateSensorDeviceDto) {
+  update(id: string, updateSensorDeviceDto: UpdateSensorDeviceDto) {
     return `This action updates a #${id} sensorDevice`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} sensorDevice`;
   }
 }

@@ -44,8 +44,11 @@ export class DataStreamService {
     return this.dataStreamRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dataStream`;
+  findOne(id: string) {
+    return this.dataStreamRepository.findOne({
+      where : {id},
+      relations : ['unit', 'sensoData']
+    });
   }
 
   findOneByKey(key: string) {

@@ -8,3 +8,7 @@ export function returnSensorDeviceDto_forCreate(createSensorDeviceDto: CreateSen
         description: createSensorDeviceDto.description
     }
 }
+
+export function returnSensorDeviceDto_forFindAllByUser() {
+
+}
