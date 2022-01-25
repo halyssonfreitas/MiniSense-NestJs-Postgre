@@ -4,7 +4,7 @@ import { DataStreamService } from 'src/data-stream/data-stream.service';
 import { Repository } from 'typeorm';
 import { uuid } from 'uuidv4';
 import { CreateSensorDataDto } from './dto/create-sensor-data.dto';
-import { returnSensorDataDto } from './dto/return-sensor-data.dto';
+import { returnSensorDataDto_forCreate } from './dto/return-sensor-data.dto';
 import { UpdateSensorDataDto } from './dto/update-sensor-data.dto';
 import { SensorData } from './entities/sensor-data.entity';
 
@@ -32,7 +32,7 @@ export class SensorDataService {
     this.sensorDataRepository.save(createSensorDataDto)
       .catch(() => { throw new HttpException("This was not saved, please, try again!", HttpStatus.EXPECTATION_FAILED) })
 
-    return returnSensorDataDto(createSensorDataDto);
+    return returnSensorDataDto_forCreate(createSensorDataDto);
   }
 
   findAll() {

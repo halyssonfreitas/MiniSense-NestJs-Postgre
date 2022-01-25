@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MeasurementUnit } from 'src/measurement-unit/entities/measurement-unit.entity';
 import { MeasurementUnitService } from 'src/measurement-unit/measurement-unit.service';
 import { SensorDeviceService } from 'src/sensor-device/sensor-device.service';
 import { Repository } from 'typeorm';
 import { uuid } from 'uuidv4';
 import { CreateDataStreamDto } from './dto/create-data-stream.dto';
+import { returnDataStreamDto_forCreate } from './dto/return-data-stream.dto';
 import { UpdateDataStreamDto } from './dto/update-data-stream.dto';
 import { DataStream } from './entities/data-stream.entity';
 
@@ -34,7 +34,10 @@ export class DataStreamService {
     createDataStreamDto.sensorDevice = sensorDevice.id
     createDataStreamDto.unit = measurementUnit.id
 
-    return this.dataStreamRepository.save(createDataStreamDto);
+    this.dataStreamRepository.save(createDataStreamDto)
+    .catch(() => { throw new HttpException("This was not saved, please, try again!", HttpStatus.EXPECTATION_FAILED) })
+
+    return returnDataStreamDto_forCreate(createDataStreamDto);
   }
 
   findAll() {

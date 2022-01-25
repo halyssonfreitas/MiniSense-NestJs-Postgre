@@ -1,6 +1,6 @@
 import { CreateSensorDataDto } from "src/sensor-data/dto/create-sensor-data.dto"
 
-export function returnSensorDataDto(createSensorDataDto: CreateSensorDataDto) {
+export function returnSensorDataDto_forCreate(createSensorDataDto: CreateSensorDataDto) {
     return {
         id: createSensorDataDto.id,
         timestamp: createSensorDataDto.timestamp,

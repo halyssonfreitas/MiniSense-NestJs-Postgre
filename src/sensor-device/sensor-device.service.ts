@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { SensorDevice } from './entities/sensor-device.entity';
+import { returnSensorDeviceDto_forCreate } from './dto/return-sensor-device.dto';
 
 @Injectable()
 export class SensorDeviceService {
@@ -31,9 +32,10 @@ export class SensorDeviceService {
     createSensorDeviceDto.key = uuid()
     createSensorDeviceDto.user = userObj
 
-    let {user: us, ...SD} = createSensorDeviceDto
-    this.sensorDeviceRepository.save(createSensorDeviceDto);
-    return SD
+    this.sensorDeviceRepository.save(createSensorDeviceDto)
+      .catch(() => { throw new HttpException("This was not saved, please, try again!", HttpStatus.EXPECTATION_FAILED) })
+    
+    return returnSensorDeviceDto_forCreate(createSensorDeviceDto)
   }
 
   findAll() {
