@@ -1,8 +1,8 @@
-import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { uuid } from 'uuidv4';
 import { UserService } from 'src/user/user.service';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { SensorDevice } from './entities/sensor-device.entity';
@@ -31,7 +31,9 @@ export class SensorDeviceService {
     createSensorDeviceDto.key = uuid()
     createSensorDeviceDto.user = userObj
 
-    return this.sensorDeviceRepository.save(createSensorDeviceDto);
+    let {user: us, ...SD} = createSensorDeviceDto
+    this.sensorDeviceRepository.save(createSensorDeviceDto);
+    return SD
   }
 
   findAll() {
