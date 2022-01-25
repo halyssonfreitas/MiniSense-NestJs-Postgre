@@ -23,7 +23,7 @@ export class MeasurementUnitService {
   }
 
   findOne(id: string) {
-    return this.measurementUnitRepository.find({
+    return this.measurementUnitRepository.findOne({
       where: {
         id: id
       },

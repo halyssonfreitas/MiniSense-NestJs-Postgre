@@ -11,10 +11,15 @@ export class CreateDataStreamDto {
     @IsString()
     label: string
 
+    @IsEmpty()
     @IsBoolean()
-    enable: boolean
+    @IsOptional()
+    enable?: boolean
 
     @IsEmpty()
     @IsOptional()
-    sensorDevice?: SensorDevice
+    sensorDevice?: any
+
+    @IsString()
+    unitId: any
 }

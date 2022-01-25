@@ -9,11 +9,12 @@ import { UpdateDataStreamDto } from './dto/update-data-stream.dto';
 export class DataStreamController {
   constructor(private readonly dataStreamService: DataStreamService) {}
 
-  @Post()
+  @Post(':key')
   create(
     @Body() createDataStreamDto: CreateDataStreamDto,
     @Param('key') keyOfSensorDevice: string
     ) {
+    console.log("DataStreamController - create()")
     return this.dataStreamService.create(createDataStreamDto, keyOfSensorDevice);
   }
 

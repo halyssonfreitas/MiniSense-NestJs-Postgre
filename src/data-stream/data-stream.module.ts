@@ -4,9 +4,10 @@ import { DataStreamController } from './data-stream.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataStream } from './entities/data-stream.entity';
 import { SensorDeviceModule } from 'src/sensor-device/sensor-device.module';
+import { MeasurementUnitModule } from 'src/measurement-unit/measurement-unit.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DataStream]), SensorDeviceModule],
+  imports: [TypeOrmModule.forFeature([DataStream]), SensorDeviceModule, MeasurementUnitModule],
   controllers: [DataStreamController],
   providers: [DataStreamService]
 })

@@ -7,6 +7,7 @@ import { MeasurementUnit } from './entities/measurement-unit.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([MeasurementUnit])],
   controllers: [MeasurementUnitController],
-  providers: [MeasurementUnitService]
+  providers: [MeasurementUnitService],
+  exports: [MeasurementUnitService]
 })
 export class MeasurementUnitModule {}

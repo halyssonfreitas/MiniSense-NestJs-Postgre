@@ -16,7 +16,7 @@ export class MeasurementUnit {
     @Column()
     description: string;
 
-    @OneToMany(() => DataStream, dataStream => dataStream.unitId)
+    @OneToMany(() => DataStream, dataStream => dataStream.unit)
     dataStream: DataStream[]
 
     @OneToMany(() => SensorData, sensorData => sensorData.unitId)
