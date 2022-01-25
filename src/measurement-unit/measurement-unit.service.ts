@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { uuid } from 'uuidv4';
 import { CreateMeasurementUnitDto } from './dto/create-measurement-unit.dto';
 import { UpdateMeasurementUnitDto } from './dto/update-measurement-unit.dto';
+import { MeasurementUnit } from './entities/measurement-unit.entity';
 
 @Injectable()
 export class MeasurementUnitService {
-  create(createMeasurementUnitDto: CreateMeasurementUnitDto) {
-    return 'This action adds a new measurementUnit';
+
+  constructor(
+    @InjectRepository(MeasurementUnit) private readonly measurementUnitRepository : Repository<MeasurementUnit>
+  ) {}
+
+  async create(createMeasurementUnitDto: CreateMeasurementUnitDto) {
+    createMeasurementUnitDto.id = uuid()
+    return await this.measurementUnitRepository.save(createMeasurementUnitDto);
   }
 
   findAll() {
-    return `This action returns all measurementUnit`;
+    return this.measurementUnitRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} measurementUnit`;
+  findOne(id: string) {
+    return this.measurementUnitRepository.find({
+      where: {
+        id: id
+      },
+    });
   }
 
-  update(id: number, updateMeasurementUnitDto: UpdateMeasurementUnitDto) {
+  update(id: string, updateMeasurementUnitDto: UpdateMeasurementUnitDto) {
     return `This action updates a #${id} measurementUnit`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} measurementUnit`;
   }
 }
