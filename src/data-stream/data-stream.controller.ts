@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { DataStreamService } from './data-stream.service';
 import { CreateDataStreamDto } from './dto/create-data-stream.dto';
@@ -6,6 +7,8 @@ import { UpdateDataStreamDto } from './dto/update-data-stream.dto';
 
 @Controller('data-stream')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Data Stream')
 export class DataStreamController {
   constructor(private readonly dataStreamService: DataStreamService) {}
 

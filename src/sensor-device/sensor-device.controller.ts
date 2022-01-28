@@ -5,9 +5,12 @@ import { CreateSensorDeviceDto } from './dto/create-sensor-device.dto';
 import { UpdateSensorDeviceDto } from './dto/update-sensor-device.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
+import { ApiBearerAuth, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('sensor-device')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Sensor Device')
 export class SensorDeviceController {
   constructor(
     private readonly sensorDeviceService: SensorDeviceService,
@@ -27,11 +30,13 @@ export class SensorDeviceController {
   }
 
   @Get('by-user')
+  @ApiNotFoundResponse()
   findAllByUser(@Request() req) {
     return this.sensorDeviceService.findAllByUser(req.user);
   }
 
   @Get('by-key/:key')
+  @ApiNotFoundResponse()
   findOneByKey(@Param('key') key: string) {
     return this.sensorDeviceService.findOneByKeyRoute(key);
   }

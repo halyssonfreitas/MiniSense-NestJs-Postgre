@@ -74,6 +74,10 @@ export class SensorDeviceService {
       relations: ['dataStream']
     });
 
+    if (!sensorDevice){
+      throw new HttpException("Not found Sensor Device", HttpStatus.NOT_FOUND)
+    }
+
     // Getting all information of dataStrem
     // This is like a relation of relation in find
     for (let i = 0; i < sensorDevice.dataStream.length; i++) {
@@ -86,6 +90,7 @@ export class SensorDeviceService {
   }
 
   async findAllByUser(user: any) {
+
     var sensorDeviceListByUser = await this.sensorDeviceRepository.find({
       select: ["id", "key", "label", "description", "user"],
       where: [

@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, HttpCode, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SensorDeviceService } from 'src/sensor-device/sensor-device.service';
 import { Repository } from 'typeorm';
@@ -20,11 +20,20 @@ export class UserService {
   }
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: ['id', 'username', 'email']
+    })
   }
 
-  findOne(id: string) {
-    return this.userRepository.findOne({id: id});
+  async findOne(id: string) {
+    const user = await this.userRepository.findOne({
+      select: ['id', 'username', 'email'],
+      where: {id: id}
+    })
+    if (!user) {
+      throw new HttpException("The user with gived id was not found in database", HttpStatus.NOT_FOUND)
+    }
+    return user;
   }
 
   findOneByUserName(username: string) {

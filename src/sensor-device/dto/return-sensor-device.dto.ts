@@ -1,6 +1,12 @@
+import { HttpException, HttpStatus } from "@nestjs/common";
 import { CreateSensorDeviceDto } from "./create-sensor-device.dto";
 
 export function returnSensorDeviceDto_forCreate(createSensorDeviceDto: CreateSensorDeviceDto) {
+    
+    if (!createSensorDeviceDto) {
+        throw new HttpException("", HttpStatus.BAD_REQUEST)
+    }
+    
     return {
         id: createSensorDeviceDto.id,
         key: createSensorDeviceDto.key,
@@ -16,9 +22,15 @@ export function returnSensorDeviceDto_forFindAllByUser(sensorDeviceListByUser) {
     let sensorDevice
     for (let i = 0; i < sensorDeviceListByUser.length; i++) {
         console.log(`I: ${i}`)
-        dataStreamList = []
+        dataStreamList = [];
+        if (!sensorDeviceListByUser[i]){
+            throw new HttpException("", HttpStatus.BAD_REQUEST)
+        }
         for (let j = 0; j < sensorDeviceListByUser[i].dataStream.length; j++) {
             console.log(`J: ${j}`)
+            if (!sensorDeviceListByUser[i].dataStream[j]){
+                throw new HttpException("", HttpStatus.BAD_REQUEST)
+            }
             dataStream = {
                 id: sensorDeviceListByUser[i].dataStream[j].id,
                 key: sensorDeviceListByUser[i].dataStream[j].key,
