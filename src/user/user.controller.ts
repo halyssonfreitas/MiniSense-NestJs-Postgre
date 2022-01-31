@@ -7,6 +7,9 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiF
 import { User } from './entities/user.entity';
 import { userForReturnFindAll } from './dto/return-user.dto';
 import { erroApiResponse } from 'src/util/dto/error-ApiResponse.dto';
+import { Roles } from 'src/util/roles/roles.decorator';
+import { Role } from 'src/util/roles/roles.enum';
+import { RolesGuard } from 'src/util/roles/roles.guard';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)
@@ -16,6 +19,7 @@ import { erroApiResponse } from 'src/util/dto/error-ApiResponse.dto';
   description: 'You are unauthorized to access this endpoint.',
   type: erroApiResponse
 })
+@Roles(Role.Mariqueta)
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
@@ -39,6 +43,9 @@ export class UserController {
     description: 'The list of all users will be return',
     type: [userForReturnFindAll],
   })
+  //@Roles(Role.Admin, Role.User)
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard)
   findAll() {
     return this.userService.findAll();
   }

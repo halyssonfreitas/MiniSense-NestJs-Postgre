@@ -94,7 +94,7 @@ export class SensorDeviceService {
     var sensorDeviceListByUser = await this.sensorDeviceRepository.find({
       select: ["id", "key", "label", "description", "user"],
       where: [
-        { user: user.userId },
+        { user: user.sub },
       ],
       relations: ['dataStream']
     })

@@ -10,6 +10,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { Connection } from 'typeorm';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './util/roles/roles.guard';
+import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
+import { RolesModule } from './util/roles/roles.module';
 
 @Module({
   imports: [
@@ -19,13 +23,14 @@ import { Connection } from 'typeorm';
     DataStreamModule,
     MeasurementUnitModule,
     SensorDataModule,
-    AuthModule
+    AuthModule,
+    RolesModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private connection: Connection) {}
+  constructor(private connection: Connection) { }
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
